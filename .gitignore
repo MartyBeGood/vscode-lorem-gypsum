@@ -1,1 +1,2 @@
 upstream-themes/*.json
+node_modules/

@@ -3,10 +3,14 @@
   "scripts": {
     "fetch-upstream": "node fetch-upstream.js",
     "generate": "node extract-colors.js",
-    "build": "node fetch-upstream.js && node extract-colors.js"
+    "build": "node fetch-upstream.js && node extract-colors.js",
+    "package": "vsce package"
   },
   "displayName": "Lorem Gypsum",
   "description": "Default UI, Alabaster syntax, maintained whenever I have the time",
+  "repository": {
+    "url": "https://github.com/MartyBeGood/vscode-lorem-gypsum.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.110.0",
@@ -68,5 +72,8 @@
         "path": "./themes/hc_light.json"
       }
     ]
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.7.1"
   }
 }
