@@ -1,9 +1,10 @@
 {
   "name": "vscode-lorem-gypsum",
+  "type": "module",
   "scripts": {
-    "fetch-upstream": "node fetch-upstream.js",
-    "extract-colors": "node extract-colors.js",
-    "generate": "node build-theme.js",
+    "fetch-upstream": "node src/fetch-upstream.js",
+    "extract-colors": "node src/extract-colors.js",
+    "generate": "node src/build-theme.js",
     "prebuild": "npm run fetch-upstream && npm run extract-colors && npm run generate",
     "build": "vsce package"
   },
@@ -23,36 +24,6 @@
   "contributes": {
     "themes": [
       {
-        "label": "Lorem Gypsum Dark Modern",
-        "uiTheme": "vs-dark",
-        "path": "./themes/dark_modern.json"
-      },
-      {
-        "label": "Lorem Gypsum Light Modern",
-        "uiTheme": "vs",
-        "path": "./themes/light_modern.json"
-      },
-      {
-        "label": "Lorem Gypsum Dark+",
-        "uiTheme": "vs-dark",
-        "path": "./themes/dark_plus.json"
-      },
-      {
-        "label": "Lorem Gypsum Light+",
-        "uiTheme": "vs",
-        "path": "./themes/light_plus.json"
-      },
-      {
-        "label": "Lorem Gypsum 2026 Dark",
-        "uiTheme": "vs-dark",
-        "path": "./themes/2026-dark.json"
-      },
-      {
-        "label": "Lorem Gypsum 2026 Light",
-        "uiTheme": "vs",
-        "path": "./themes/2026-light.json"
-      },
-      {
         "label": "Lorem Gypsum Dark (Visual Studio)",
         "uiTheme": "vs-dark",
         "path": "./themes/dark_vs.json"
@@ -71,6 +42,36 @@
         "label": "Lorem Gypsum High Contrast Light",
         "uiTheme": "hc-light",
         "path": "./themes/hc_light.json"
+      },
+      {
+        "label": "Lorem Gypsum Dark+",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dark_plus.json"
+      },
+      {
+        "label": "Lorem Gypsum Light+",
+        "uiTheme": "vs",
+        "path": "./themes/light_plus.json"
+      },
+      {
+        "label": "Lorem Gypsum Dark Modern",
+        "uiTheme": "vs-dark",
+        "path": "./themes/dark_modern.json"
+      },
+      {
+        "label": "Lorem Gypsum Light Modern",
+        "uiTheme": "vs",
+        "path": "./themes/light_modern.json"
+      },
+      {
+        "label": "Lorem Gypsum 2026 Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/2026-dark.json"
+      },
+      {
+        "label": "Lorem Gypsum 2026 Light",
+        "uiTheme": "vs",
+        "path": "./themes/2026-light.json"
       }
     ]
   },

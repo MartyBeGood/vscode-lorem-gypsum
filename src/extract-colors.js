@@ -1,29 +1,14 @@
 #!/usr/bin/env node
-'use strict';
 // Extract placeholder color palettes from upstream VSCode themes.
 // Run fetch-upstream.js first to populate upstream-themes/, then:
-// Usage: node extract-colors.js
+// Usage: node src/extract-colors.js  (or: npm run extract-colors)
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { themeFiles, upstreamDir, palettesDir } from './constants.js';
 
-const THEME_FILES = [
-  'dark_modern.json',
-  'light_modern.json',
-  'dark_plus.json',
-  'light_plus.json',
-  '2026-dark.json',
-  '2026-light.json',
-  'dark_vs.json',
-  'light_vs.json',
-  'hc_black.json',
-  'hc_light.json',
-];
-
-const REPO_ROOT = __dirname;
-const UPSTREAM_DIR = path.join(REPO_ROOT, 'upstream-themes');
-const PALETTES_DIR = path.join(REPO_ROOT, 'palettes');
-const SCHEMA_PATH = path.join(PALETTES_DIR, 'palette.schema.json');
+const SCHEMA_PATH = path.join(palettesDir, 'palette.schema.json');
 const SCHEMA_REF = './palette.schema.json';
 
 // Color mappings: placeholder name -> source scope to extract from.
@@ -44,7 +29,7 @@ const MAPPINGS_2026 = {
   entityName: 'string',
 };
 
-const MAPPINGS_OVERRIDES = {
+export const MAPPINGS_OVERRIDES = {
   '2026-dark.json': MAPPINGS_2026,
   '2026-light.json': MAPPINGS_2026,
 };
@@ -63,11 +48,11 @@ function validateMappingsAgainstSchema() {
 }
 
 function loadUpstream(filename) {
-  const filePath = path.join(UPSTREAM_DIR, filename);
+  const filePath = path.join(upstreamDir, filename);
   if (!fs.existsSync(filePath)) {
     throw new Error(
       `Missing upstream file: ${filePath}\n` +
-      'Run `node fetch-upstream.js` (or `npm run fetch-upstream`) to download upstream theme files.'
+      'Run `node src/fetch-upstream.js` (or `npm run fetch-upstream`) to download upstream theme files.'
     );
   }
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -95,14 +80,14 @@ function resolveTheme(filename, raw, memo) {
   return resolved;
 }
 
-function resolveAllThemes() {
+export function resolveAllThemes() {
   const raw = {};
-  for (const filename of THEME_FILES) {
+  for (const filename of themeFiles) {
     raw[filename] = loadUpstream(filename);
   }
 
   const resolvedThemes = {};
-  for (const filename of THEME_FILES) {
+  for (const filename of themeFiles) {
     resolveTheme(filename, raw, resolvedThemes);
   }
 
@@ -144,38 +129,38 @@ function extractColors(themeFilename, mappings, resolvedThemes) {
   return colors;
 }
 
-function getMappingsForTheme(sourceFilename) {
+export function getMappingsForTheme(sourceFilename) {
   return {
     ...DEFAULT_MAPPINGS,
     ...(MAPPINGS_OVERRIDES[sourceFilename] || {}),
   };
 }
 
-function extractPaletteForTheme(sourceFilename, resolvedThemes) {
+export function extractPaletteForTheme(sourceFilename, resolvedThemes) {
   const mappings = getMappingsForTheme(sourceFilename);
   return extractColors(sourceFilename, mappings, resolvedThemes);
 }
 
 function writePalettes(resolvedThemes) {
-  fs.mkdirSync(PALETTES_DIR, { recursive: true });
+  fs.mkdirSync(palettesDir, { recursive: true });
 
-  for (const fname of fs.readdirSync(PALETTES_DIR)) {
+  for (const fname of fs.readdirSync(palettesDir)) {
     if (fname.endsWith('.json') && fname !== path.basename(SCHEMA_PATH)) {
-      fs.unlinkSync(path.join(PALETTES_DIR, fname));
+      fs.unlinkSync(path.join(palettesDir, fname));
       console.log(`  Removed stale: ${fname}`);
     }
   }
 
-  for (const filename of THEME_FILES) {
+  for (const filename of themeFiles) {
     const palette = extractPaletteForTheme(filename, resolvedThemes);
-    const outPath = path.join(PALETTES_DIR, filename);
+    const outPath = path.join(palettesDir, filename);
     const output = { $schema: SCHEMA_REF, ...palette };
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2) + '\n', 'utf-8');
     console.log(`  Wrote palette: ${filename}`);
   }
 }
 
-function main() {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   validateMappingsAgainstSchema();
   console.log('Loading upstream themes...');
   const resolvedThemes = resolveAllThemes();
@@ -183,18 +168,5 @@ function main() {
   console.log('\nWriting palettes...');
   writePalettes(resolvedThemes);
 
-  console.log(`\nDone! Wrote ${THEME_FILES.length} palettes to palettes/.`);
-}
-
-module.exports = {
-  THEME_FILES,
-  DEFAULT_MAPPINGS,
-  MAPPINGS_OVERRIDES,
-  resolveAllThemes,
-  getMappingsForTheme,
-  extractPaletteForTheme,
-};
-
-if (require.main === module) {
-  main();
+  console.log(`\nDone! Wrote ${themeFiles.length} palettes to palettes/.`);
 }

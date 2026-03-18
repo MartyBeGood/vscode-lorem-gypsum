@@ -1,31 +1,13 @@
 #!/usr/bin/env node
-'use strict';
 // Generate VSCode color themes combining default VSCode UI colors with
 // Alabaster-style minimal syntax highlighting.
 // Run fetch-upstream.js first to populate upstream-themes/, then:
-// Usage: node build-theme.js  (or: npm run generate)
+// Usage: node src/build-theme.js  (or: npm run generate)
 
-const fs = require('fs');
-const path = require('path');
-
-const {
-  THEME_FILES,
-  resolveAllThemes,
-  extractPaletteForTheme,
-} = require('./extract-colors');
-
-const REPO_ROOT = __dirname;
-const THEMES_DIR = path.join(REPO_ROOT, 'themes');
-
-function loadJsonWithComments(filePath) {
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  const withoutBlockComments = raw.replace(/\/\*[\s\S]*?\*\//g, '');
-  const withoutLineComments = withoutBlockComments.replace(/\/\/[^\n]*/g, '');
-  const withoutTrailingCommas = withoutLineComments.replace(/,\s*([}\]])/g, '$1');
-  return JSON.parse(withoutTrailingCommas);
-}
-
-const TEMPLATE = loadJsonWithComments(path.join(REPO_ROOT, 'token-colors.json'));
+import fs from 'fs';
+import path from 'path';
+import { themeFiles, repoRoot, themesDir } from './constants.js';
+import { resolveAllThemes, extractPaletteForTheme } from './extract-colors.js';
 
 // Filename -> [display_name, uiTheme]
 // uiTheme must be one of: "vs", "vs-dark", "hc-black", "hc-light"
@@ -48,6 +30,16 @@ const UI_THEME_TO_TYPE = {
   'hc-black': 'hc',
   'hc-light': 'hc',
 };
+
+function loadJsonWithComments(filePath) {
+  const raw = fs.readFileSync(filePath, 'utf-8');
+  const withoutBlockComments = raw.replace(/\/\*[\s\S]*?\*\//g, '');
+  const withoutLineComments = withoutBlockComments.replace(/\/\/[^\n]*/g, '');
+  const withoutTrailingCommas = withoutLineComments.replace(/,\s*([}\]])/g, '$1');
+  return JSON.parse(withoutTrailingCommas);
+}
+
+const TEMPLATE = loadJsonWithComments(path.join(repoRoot, 'token-colors.json'));
 
 function buildTheme(sourceFilename, displayName, resolvedThemes) {
   const [, uiTheme] = THEME_METADATA[sourceFilename];
@@ -75,7 +67,7 @@ function buildTheme(sourceFilename, displayName, resolvedThemes) {
     semanticHighlighting: false,
   };
 
-  const outPath = path.join(THEMES_DIR, sourceFilename);
+  const outPath = path.join(themesDir, sourceFilename);
   fs.writeFileSync(outPath, JSON.stringify(theme, null, 2) + '\n', 'utf-8');
 
   console.log(`  ${displayName}`);
@@ -85,7 +77,7 @@ function buildTheme(sourceFilename, displayName, resolvedThemes) {
 }
 
 function updatePackageJson(themesManifest) {
-  const pkgPath = path.join(REPO_ROOT, 'package.json');
+  const pkgPath = path.join(repoRoot, 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
   pkg.name = 'vscode-lorem-gypsum';
   pkg.displayName = 'Lorem Gypsum';
@@ -94,15 +86,15 @@ function updatePackageJson(themesManifest) {
 }
 
 function main() {
-  fs.mkdirSync(THEMES_DIR, { recursive: true });
+  fs.mkdirSync(themesDir, { recursive: true });
 
   console.log('Loading upstream themes...');
   const resolvedThemes = resolveAllThemes();
 
   // Clear stale generated theme files
-  for (const fname of fs.readdirSync(THEMES_DIR)) {
+  for (const fname of fs.readdirSync(themesDir)) {
     if (fname.endsWith('.json')) {
-      fs.unlinkSync(path.join(THEMES_DIR, fname));
+      fs.unlinkSync(path.join(themesDir, fname));
       console.log(`  Removed stale: ${fname}`);
     }
   }
@@ -110,7 +102,7 @@ function main() {
   const themesManifest = [];
 
   console.log('\nGenerating themes...');
-  for (const filename of THEME_FILES) {
+  for (const filename of themeFiles) {
     if (!(filename in THEME_METADATA)) {
       console.log(`  WARNING: ${filename} not in THEME_METADATA, skipping`);
       continue;
@@ -134,6 +126,4 @@ function main() {
   console.log('  3. vsce publish');
 }
 
-if (require.main === module) {
-  main();
-}
+main();
