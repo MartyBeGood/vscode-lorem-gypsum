@@ -2,9 +2,10 @@
   "name": "vscode-lorem-gypsum",
   "scripts": {
     "fetch-upstream": "node fetch-upstream.js",
-    "generate": "node extract-colors.js",
-    "build": "node fetch-upstream.js && node extract-colors.js",
-    "package": "vsce package"
+    "extract-colors": "node extract-colors.js",
+    "generate": "node build-theme.js",
+    "prebuild": "npm run fetch-upstream && npm run extract-colors && npm run generate",
+    "build": "vsce package"
   },
   "displayName": "Lorem Gypsum",
   "description": "Default UI, Alabaster syntax, maintained whenever I have the time",

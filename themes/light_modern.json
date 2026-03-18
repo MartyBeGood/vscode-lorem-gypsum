@@ -170,6 +170,7 @@
       "scope": [
         "string",
         "string.regexp",
+        "punctuation.definition.string",
         "constant.other.symbol"
       ],
       "settings": {
@@ -180,7 +181,7 @@
       "name": "Strings: Escape Sequences",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#0000ff"
+        "foreground": "#AF00DB"
       }
     },
     {
@@ -189,22 +190,19 @@
         "constant.numeric",
         "constant.character",
         "constant.keyword",
-        "constant"
+        "constant",
+        "variable.other.constant",
+        "support.type.property-name"
       ],
       "settings": {
-        "foreground": "#0000ff"
+        "foreground": "#AF00DB"
       }
     },
     {
       "name": "Global definitions",
-      "scope": "entity.name",
-      "settings": {
-        "foreground": "#795E26"
-      }
-    },
-    {
-      "name": "Punctuation",
-      "scope": "punctuation",
+      "scope": [
+        "entity.name"
+      ],
       "settings": {
         "foreground": "#0000ff"
       }
@@ -213,36 +211,7 @@
       "name": "Invalid",
       "scope": "invalid",
       "settings": {
-        "background": "#96000014",
-        "foreground": "#660000"
-      }
-    },
-    {
-      "name": "Extra: Diff Range",
-      "scope": [
-        "meta.diff.range",
-        "meta.diff.index",
-        "meta.separator"
-      ],
-      "settings": {
-        "background": "#DDDDFF",
-        "foreground": "#434343"
-      }
-    },
-    {
-      "name": "Extra: Diff From",
-      "scope": "meta.diff.header.from-file",
-      "settings": {
-        "background": "#FFDDDD",
-        "foreground": "#434343"
-      }
-    },
-    {
-      "name": "Extra: Diff To",
-      "scope": "meta.diff.header.to-file",
-      "settings": {
-        "background": "#DDFFDD",
-        "foreground": "#434343"
+        "foreground": "#cd3131"
       }
     }
   ],

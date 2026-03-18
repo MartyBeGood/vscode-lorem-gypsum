@@ -164,7 +164,7 @@
     "list.activeSelectionForeground": "#ededed",
     "list.inactiveSelectionBackground": "#2C2D2E",
     "list.inactiveSelectionForeground": "#ededed",
-    "list.hoverBackground": "#262728",
+    "list.hoverBackground": "#FFFFFF0D",
     "list.hoverForeground": "#bfbfbf",
     "toolbar.hoverBackground": "#FFFFFF18",
     "list.focusBackground": "#3994BC26",
@@ -320,6 +320,7 @@
       "scope": [
         "string",
         "string.regexp",
+        "punctuation.definition.string",
         "constant.other.symbol"
       ],
       "settings": {
@@ -339,7 +340,9 @@
         "constant.numeric",
         "constant.character",
         "constant.keyword",
-        "constant"
+        "constant",
+        "variable.other.constant",
+        "support.type.property-name"
       ],
       "settings": {
         "foreground": "#C586C0"
@@ -347,52 +350,18 @@
     },
     {
       "name": "Global definitions",
-      "scope": "entity.name",
+      "scope": [
+        "entity.name"
+      ],
       "settings": {
         "foreground": "#a5d6ff"
-      }
-    },
-    {
-      "name": "Punctuation",
-      "scope": "punctuation",
-      "settings": {
-        "foreground": "#79c0ff"
       }
     },
     {
       "name": "Invalid",
       "scope": "invalid",
       "settings": {
-        "background": "#96000014",
-        "foreground": "#660000"
-      }
-    },
-    {
-      "name": "Extra: Diff Range",
-      "scope": [
-        "meta.diff.range",
-        "meta.diff.index",
-        "meta.separator"
-      ],
-      "settings": {
-        "background": "#DDDDFF",
-        "foreground": "#434343"
-      }
-    },
-    {
-      "name": "Extra: Diff From",
-      "scope": "meta.diff.header.from-file",
-      "settings": {
-        "background": "#FFDDDD",
-        "foreground": "#434343"
-      }
-    },
-    {
-      "name": "Extra: Diff To",
-      "scope": "meta.diff.header.to-file",
-      "settings": {
-        "background": "#DDFFDD",
-        "foreground": "#434343"
+        "foreground": "#f44747"
       }
     }
   ],

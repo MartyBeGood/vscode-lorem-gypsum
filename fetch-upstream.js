@@ -8,13 +8,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const VSCODE_THEMES_BASE =
+const vsCodeThemesBase =
   'https://raw.githubusercontent.com/microsoft/vscode/main/extensions/theme-defaults/themes';
 
-const ALABASTER_THEME_BASE =
+const alabasterThemeBase =
   'https://raw.githubusercontent.com/tonsky/vscode-theme-alabaster/refs/heads/master/theme';
 
-const VSCODE_THEME_FILES = [
+const vscodeThemeFiles = [
   'dark_vs.json',
   'light_vs.json',
   'hc_black.json',
@@ -27,8 +27,8 @@ const VSCODE_THEME_FILES = [
   '2026-light.json',
 ];
 
-const REPO_ROOT = __dirname;
-const UPSTREAM_DIR = path.join(REPO_ROOT, 'upstream-themes');
+const repoRoot = __dirname;
+const upstreamDir = path.join(repoRoot, 'upstream-themes');
 
 async function fetchText(url) {
   const res = await fetch(url, { headers: { 'User-Agent': 'vscode-default-alabaster/generate' } });
@@ -53,7 +53,7 @@ async function fetchJson(url) {
 
 async function fetchAndSave(url, filename) {
   const data = await fetchJson(url);
-  const outPath = path.join(UPSTREAM_DIR, filename);
+  const outPath = path.join(upstreamDir, filename);
   fs.writeFileSync(outPath, JSON.stringify(data, null, 2) + '\n', 'utf-8');
   console.log(`  ${filename}`);
 }
@@ -72,17 +72,17 @@ async function fetchFirstAndSave(candidates, filename) {
 }
 
 async function main() {
-  fs.mkdirSync(UPSTREAM_DIR, { recursive: true });
+  fs.mkdirSync(upstreamDir, { recursive: true });
 
   console.log('Fetching VSCode default themes...');
   await Promise.all(
-    VSCODE_THEME_FILES.map((filename) => fetchAndSave(`${VSCODE_THEMES_BASE}/${filename}`, filename))
+    vscodeThemeFiles.map((filename) => fetchAndSave(`${vsCodeThemesBase}/${filename}`, filename))
   );
 
   console.log('Fetching Alabaster theme...');
-  await fetchAndSave(`${ALABASTER_THEME_BASE}/alabaster-color-theme.json`, 'alabaster-color-theme.json');
+  await fetchAndSave(`${alabasterThemeBase}/alabaster-color-theme.json`, 'alabaster-color-theme.json');
 
-  console.log(`\nDone! ${VSCODE_THEME_FILES.length + 1} files saved to upstream-themes/`);
+  console.log(`\nDone! ${vscodeThemeFiles.length + 1} files saved to upstream-themes/`);
 }
 
 main().catch((e) => {

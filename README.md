@@ -45,20 +45,20 @@ Find it in the VSCode Extension Marketplace once it's there, OpenVSIX if I ever 
 
 ## FAQ
 
-**Will this make me a better programmer?**
+### Will this make me a better programmer?
 No, but it will make debugging at 2am marginally less of an assault on your retinas.
 
-**Why is it called Lorem Gypsum?**
+### Why is it called Lorem Gypsum?
 Alabaster is a type of gypsum. Lorem Ipsum is the world's default filler text.
 
-**There's theme XYZ with terrible syntax highlighting, but I like the UI colors. Can you support that?**
+### There's theme XYZ with terrible syntax highlighting, but I like the UI colors. Can you support that?
 Possibly. Shouldn't be more than referencing the file in `fetch-upstream.js` and a mapping in `extract-colors.js`. PRs are welcome.
 
-**This token in the language I like most is highlighted wrong or not at all. Can you fix it?**
+### This token in the language I like most is highlighted wrong or not at all. Can you fix it?
 As long as it fits into the categories that Alabaster would highlight. Issues and PRs are welcome. 
 
-**I can't live without [obscure feature in this arcane language] being highlighted in a color nothing else shares. Can you support that?**
+### I can't live without [obscure feature in this arcane language] being highlighted in a color nothing else shares. Can you support that?
 You might be more at home with Catppuccin.
 
-**Where are the screenshots?**
+### Where are the screenshots?
 Patience, young one.

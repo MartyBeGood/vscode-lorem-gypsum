@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 'use strict';
-// Generate VSCode color themes combining default VSCode UI colors with
-// Alabaster-style minimal syntax highlighting.
+// Extract placeholder color palettes from upstream VSCode themes.
 // Run fetch-upstream.js first to populate upstream-themes/, then:
-// Usage: node extract-colors.js  (or: npm run generate)
+// Usage: node extract-colors.js
 
 const fs = require('fs');
 const path = require('path');
-
-// --- Constants ---
 
 const THEME_FILES = [
   'dark_modern.json',
@@ -23,92 +20,60 @@ const THEME_FILES = [
   'hc_light.json',
 ];
 
-// Filename → [display_name, uiTheme]
-// uiTheme must be one of: "vs", "vs-dark", "hc-black", "hc-light"
-const THEME_METADATA = {
-  'dark_vs.json':     ['Lorem Gypsum Dark (Visual Studio)', 'vs-dark'],
-  'dark_plus.json':   ['Lorem Gypsum Dark+',                'vs-dark'],
-  'dark_modern.json': ['Lorem Gypsum Dark Modern',          'vs-dark'],
-  'light_vs.json':    ['Lorem Gypsum Light (Visual Studio)', 'vs'],
-  'light_plus.json':  ['Lorem Gypsum Light+',               'vs'],
-  'light_modern.json':['Lorem Gypsum Light Modern',         'vs'],
-  'hc_black.json':    ['Lorem Gypsum High Contrast',        'hc-black'],
-  'hc_light.json':    ['Lorem Gypsum High Contrast Light',  'hc-light'],
-  '2026-dark.json':   ['Lorem Gypsum 2026 Dark',            'vs-dark'],
-  '2026-light.json':  ['Lorem Gypsum 2026 Light',           'vs'],
-};
-
-const UI_THEME_TO_TYPE = {
-  'vs-dark':  'dark',
-  'vs':       'light',
-  'hc-black': 'hc',
-  'hc-light': 'hc',
-};
-
 const REPO_ROOT = __dirname;
-const THEMES_DIR = path.join(REPO_ROOT, 'themes');
 const UPSTREAM_DIR = path.join(REPO_ROOT, 'upstream-themes');
+const PALETTES_DIR = path.join(REPO_ROOT, 'palettes');
+const SCHEMA_PATH = path.join(PALETTES_DIR, 'palette.schema.json');
+const SCHEMA_REF = './palette.schema.json';
 
-const TEMPLATE = require('./token-colors.json');
-
-// --- Color mappings: placeholder name → source scope to extract from ---
-//
-// Each object maps every $placeholder in token-colors.json to the
-// TextMate scope whose foreground color should fill that slot.
-
+// Color mappings: placeholder name -> source scope to extract from.
 const DEFAULT_MAPPINGS = {
-  comment:    'string',           // swap: comments steal the string color
-  string:     'comment',          // swap: strings steal the comment color
-  escape:     'keyword',
-  constant:   'keyword',
-  entityName: 'entity.name',
-  punctuation:'keyword',
+  comment: 'string',
+  string: 'comment',
+  escape: 'keyword.control',
+  constant: 'keyword.control',
+  entityName: 'constant.language',
+  invalid: 'invalid',
 };
 
-// HC themes: preserve Alabaster's original color roles (no comment/string swap)
-const MAPPINGS_HC = {
-  escape:     'keyword',
-  constant:   'keyword',
-  entityName: 'entity.name',
-  punctuation:'keyword',
-};
-
-// 2026 (GitHub-style) themes:
-// - Comments → keyword (red-ish)
-// - Strings → entity.name.tag (green)
-// - Constants/escape/punctuation → constant (distinct blue, not keyword red)
 const MAPPINGS_2026 = {
-  comment:    'keyword',
-  string:     'entity.name.tag',
-  escape:     'constant',
-  constant:   'keyword.control',
+  comment: 'keyword',
+  string: 'entity.name.tag',
+  escape: 'constant',
+  constant: 'keyword.control',
   entityName: 'string',
-  punctuation:'constant',
 };
 
 const MAPPINGS_OVERRIDES = {
-  // 'hc_black.json':   MAPPINGS_HC,
-  // 'hc_light.json':   MAPPINGS_HC,
-  '2026-dark.json':  MAPPINGS_2026,
+  '2026-dark.json': MAPPINGS_2026,
   '2026-light.json': MAPPINGS_2026,
 };
 
+function validateMappingsAgainstSchema() {
+  const schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf-8'));
+  const schemaKeys = new Set(Object.keys(schema.properties).filter((k) => k !== '$schema'));
+  const allMappingKeys = new Set([
+    ...Object.keys(DEFAULT_MAPPINGS),
+    ...Object.values(MAPPINGS_OVERRIDES).flatMap(Object.keys),
+  ]);
+  const missing = [...allMappingKeys].filter((k) => !schemaKeys.has(k));
+  if (missing.length > 0) {
+    throw new Error(`Mapping keys not in schema: ${missing.join(', ')}`);
+  }
+}
+
 function loadUpstream(filename) {
-  const p = path.join(UPSTREAM_DIR, filename);
-  if (!fs.existsSync(p)) {
+  const filePath = path.join(UPSTREAM_DIR, filename);
+  if (!fs.existsSync(filePath)) {
     throw new Error(
-      `Missing upstream file: ${p}\n` +
+      `Missing upstream file: ${filePath}\n` +
       'Run `node fetch-upstream.js` (or `npm run fetch-upstream`) to download upstream theme files.'
     );
   }
-  return JSON.parse(fs.readFileSync(p, 'utf-8'));
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 }
 
-// --- Theme inheritance resolution ---
-
-const memo = {};
-
-function resolveTheme(filename, raw) {
+function resolveTheme(filename, raw, memo) {
   if (filename in memo) return memo[filename];
 
   const data = raw[filename];
@@ -117,10 +82,8 @@ function resolveTheme(filename, raw) {
   let resolved;
   if (data.include) {
     const parentFilename = path.basename(data.include);
-    const parent = resolveTheme(parentFilename, raw);
-    // colors: parent base, child overrides
+    const parent = resolveTheme(parentFilename, raw, memo);
     const colors = { ...parent.colors, ...data.colors };
-    // tokenColors: child first so extractColorByScope finds the most specific override
     const tokenColors = [...(data.tokenColors || []), ...(parent.tokenColors || [])];
     resolved = { ...data, colors, tokenColors };
     delete resolved.include;
@@ -132,31 +95,44 @@ function resolveTheme(filename, raw) {
   return resolved;
 }
 
+function resolveAllThemes() {
+  const raw = {};
+  for (const filename of THEME_FILES) {
+    raw[filename] = loadUpstream(filename);
+  }
+
+  const resolvedThemes = {};
+  for (const filename of THEME_FILES) {
+    resolveTheme(filename, raw, resolvedThemes);
+  }
+
+  return resolvedThemes;
+}
+
 function extractColorByScope(tokenColors, targetScope) {
   let fallback = null;
   for (const rule of tokenColors) {
     let scopes = rule.scope || [];
     if (typeof scopes === 'string') {
-      scopes = scopes.split(',').map((s) => s.trim());
+      scopes = scopes.split(',').map((scope) => scope.trim());
     }
+
     for (const scope of scopes) {
-      const s = scope.trim();
-      if (s === targetScope) {
-        const fg = rule.settings?.foreground;
-        if (fg) return fg;
-      } else if (fallback === null && s.startsWith(targetScope + '.')) {
-        const fg = rule.settings?.foreground;
-        if (fg) fallback = fg;
+      const normalizedScope = scope.trim();
+      if (normalizedScope === targetScope) {
+        const foreground = rule.settings?.foreground;
+        if (foreground) return foreground;
+      } else if (fallback === null && normalizedScope.startsWith(targetScope + '.')) {
+        const foreground = rule.settings?.foreground;
+        if (foreground) fallback = foreground;
       }
     }
   }
   return fallback;
 }
 
-// Returns an object mapping each placeholder name to the extracted color.
-// mappings: { comment: 'string', string: 'comment', ... }
-function extractColors(themeFilename, mappings) {
-  const resolved = memo[themeFilename];
+function extractColors(themeFilename, mappings, resolvedThemes) {
+  const resolved = resolvedThemes[themeFilename];
   if (!resolved) throw new Error(`Theme not resolved: ${themeFilename}`);
 
   const tokenColors = resolved.tokenColors || [];
@@ -168,99 +144,57 @@ function extractColors(themeFilename, mappings) {
   return colors;
 }
 
-function buildTheme(sourceFilename, displayName) {
-  const [, uiTheme] = THEME_METADATA[sourceFilename];
-  const resolved = memo[sourceFilename];
-  const mappings = MAPPINGS_OVERRIDES[sourceFilename] || DEFAULT_MAPPINGS;
-
-  const colors = extractColors(sourceFilename, mappings);
-
-  const tokenColors = JSON.parse(
-    JSON.stringify(TEMPLATE),
-    (key, value) =>
-      typeof value === 'string' && value.startsWith('$')
-        ? (colors[value.slice(1)] ?? value)
-        : value
-  );
-
-  const theme = {
-    $schema: 'vscode://schemas/color-theme',
-    name: displayName,
-    type: UI_THEME_TO_TYPE[uiTheme] || 'dark',
-    colors: resolved.colors || {},
-    tokenColors,
-    semanticHighlighting: false,
+function getMappingsForTheme(sourceFilename) {
+  return {
+    ...DEFAULT_MAPPINGS,
+    ...(MAPPINGS_OVERRIDES[sourceFilename] || {}),
   };
-
-  const outPath = path.join(THEMES_DIR, sourceFilename);
-  fs.writeFileSync(outPath, JSON.stringify(theme, null, 2) + '\n', 'utf-8');
-
-  console.log(`  ${displayName}`);
-  for (const [name, color] of Object.entries(colors)) {
-    console.log(`    $${name} → ${color}`);
-  }
 }
 
-// --- package.json update ---
-
-function updatePackageJson(themesManifest) {
-  const pkgPath = path.join(REPO_ROOT, 'package.json');
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-  pkg.name = 'vscode-lorem-gypsum';
-  pkg.displayName = 'Lorem Gypsum';
-  pkg.contributes.themes = themesManifest;
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+function extractPaletteForTheme(sourceFilename, resolvedThemes) {
+  const mappings = getMappingsForTheme(sourceFilename);
+  return extractColors(sourceFilename, mappings, resolvedThemes);
 }
 
-// --- Main ---
+function writePalettes(resolvedThemes) {
+  fs.mkdirSync(PALETTES_DIR, { recursive: true });
 
-function main() {
-  fs.mkdirSync(THEMES_DIR, { recursive: true });
-
-  console.log('Loading upstream themes...');
-  const raw = {};
-  for (const filename of THEME_FILES) {
-    raw[filename] = loadUpstream(filename);
-  }
-
-  // Clear stale generated theme files
-  for (const fname of fs.readdirSync(THEMES_DIR)) {
-    if (fname.endsWith('.json')) {
-      fs.unlinkSync(path.join(THEMES_DIR, fname));
+  for (const fname of fs.readdirSync(PALETTES_DIR)) {
+    if (fname.endsWith('.json') && fname !== path.basename(SCHEMA_PATH)) {
+      fs.unlinkSync(path.join(PALETTES_DIR, fname));
       console.log(`  Removed stale: ${fname}`);
     }
   }
 
-  // Resolve all inheritance chains
   for (const filename of THEME_FILES) {
-    resolveTheme(filename, raw);
+    const palette = extractPaletteForTheme(filename, resolvedThemes);
+    const outPath = path.join(PALETTES_DIR, filename);
+    const output = { $schema: SCHEMA_REF, ...palette };
+    fs.writeFileSync(outPath, JSON.stringify(output, null, 2) + '\n', 'utf-8');
+    console.log(`  Wrote palette: ${filename}`);
   }
-
-  const themesManifest = [];
-
-  console.log('\nGenerating themes...');
-  for (const filename of THEME_FILES) {
-    if (!(filename in THEME_METADATA)) {
-      console.log(`  WARNING: ${filename} not in THEME_METADATA, skipping`);
-      continue;
-    }
-
-    const [displayName, uiTheme] = THEME_METADATA[filename];
-    buildTheme(filename, displayName);
-    themesManifest.push({
-      label: displayName,
-      uiTheme,
-      path: `./themes/${filename}`,
-    });
-  }
-
-  updatePackageJson(themesManifest);
-
-  console.log(`\nDone! Generated ${themesManifest.length} themes.`);
-  console.log('Next steps:');
-  console.log('  1. Press F5 in VSCode to test');
-  console.log('  2. Bump version in package.json');
-  console.log('  3. vsce publish');
 }
 
-main();
+function main() {
+  validateMappingsAgainstSchema();
+  console.log('Loading upstream themes...');
+  const resolvedThemes = resolveAllThemes();
+
+  console.log('\nWriting palettes...');
+  writePalettes(resolvedThemes);
+
+  console.log(`\nDone! Wrote ${THEME_FILES.length} palettes to palettes/.`);
+}
+
+module.exports = {
+  THEME_FILES,
+  DEFAULT_MAPPINGS,
+  MAPPINGS_OVERRIDES,
+  resolveAllThemes,
+  getMappingsForTheme,
+  extractPaletteForTheme,
+};
+
+if (require.main === module) {
+  main();
+}
