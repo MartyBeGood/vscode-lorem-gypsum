@@ -1,0 +1,111 @@
+{
+  "$schema": "vscode://schemas/color-theme",
+  "name": "Lorem Gypsum High Contrast",
+  "type": "hc",
+  "colors": {
+    "editor.background": "#000000",
+    "editor.foreground": "#FFFFFF",
+    "editorIndentGuide.background1": "#FFFFFF",
+    "editorIndentGuide.activeBackground1": "#FFFFFF",
+    "sideBarTitle.foreground": "#FFFFFF",
+    "selection.background": "#008000",
+    "editor.selectionBackground": "#FFFFFF",
+    "statusBarItem.remoteBackground": "#00000000",
+    "ports.iconRunningProcessForeground": "#FFFFFF",
+    "editorWhitespace.foreground": "#7c7c7c",
+    "actionBar.toggledBackground": "#383a49"
+  },
+  "tokenColors": [
+    {
+      "name": "Comments",
+      "scope": [
+        "comment",
+        "punctuation.definition.comment"
+      ],
+      "settings": {
+        "foreground": "#FFFFFF"
+      }
+    },
+    {
+      "name": "Strings",
+      "scope": [
+        "string",
+        "string.regexp",
+        "constant.other.symbol"
+      ],
+      "settings": {
+        "foreground": "#7ca668"
+      }
+    },
+    {
+      "name": "Strings: Escape Sequences",
+      "scope": "constant.character.escape",
+      "settings": {
+        "foreground": "#569cd6"
+      }
+    },
+    {
+      "name": "Numbers, Characters",
+      "scope": [
+        "constant.numeric",
+        "constant.character",
+        "constant.keyword",
+        "constant"
+      ],
+      "settings": {
+        "foreground": "#569cd6"
+      }
+    },
+    {
+      "name": "Global definitions",
+      "scope": "entity.name",
+      "settings": {
+        "foreground": "#569cd6"
+      }
+    },
+    {
+      "name": "Punctuation",
+      "scope": "punctuation",
+      "settings": {
+        "foreground": "#569cd6"
+      }
+    },
+    {
+      "name": "Invalid",
+      "scope": "invalid",
+      "settings": {
+        "background": "#96000014",
+        "foreground": "#660000"
+      }
+    },
+    {
+      "name": "Extra: Diff Range",
+      "scope": [
+        "meta.diff.range",
+        "meta.diff.index",
+        "meta.separator"
+      ],
+      "settings": {
+        "background": "#DDDDFF",
+        "foreground": "#434343"
+      }
+    },
+    {
+      "name": "Extra: Diff From",
+      "scope": "meta.diff.header.from-file",
+      "settings": {
+        "background": "#FFDDDD",
+        "foreground": "#434343"
+      }
+    },
+    {
+      "name": "Extra: Diff To",
+      "scope": "meta.diff.header.to-file",
+      "settings": {
+        "background": "#DDFFDD",
+        "foreground": "#434343"
+      }
+    }
+  ],
+  "semanticHighlighting": false
+}

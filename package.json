@@ -1,0 +1,66 @@
+{
+  "name": "vscode-lorem-gypsum",
+  "displayName": "Lorem Gypsum",
+  "description": "Default UI, Alabaster syntax, maintained whenever I have the time",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.110.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Lorem Gypsum Dark (Visual Studio)",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Lorem Gypsum Dark (Visual Studio)-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum Light (Visual Studio)",
+        "uiTheme": "vs",
+        "path": "./themes/Lorem Gypsum Light (Visual Studio)-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum High Contrast",
+        "uiTheme": "hc-black",
+        "path": "./themes/Lorem Gypsum High Contrast-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum High Contrast Light",
+        "uiTheme": "hc-light",
+        "path": "./themes/Lorem Gypsum High Contrast Light-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum Dark+",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Lorem Gypsum Dark+-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum Light+",
+        "uiTheme": "vs",
+        "path": "./themes/Lorem Gypsum Light+-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum Dark Modern",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Lorem Gypsum Dark Modern-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum Light Modern",
+        "uiTheme": "vs",
+        "path": "./themes/Lorem Gypsum Light Modern-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum 2026 Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Lorem Gypsum 2026 Dark-color-theme.json"
+      },
+      {
+        "label": "Lorem Gypsum 2026 Light",
+        "uiTheme": "vs",
+        "path": "./themes/Lorem Gypsum 2026 Light-color-theme.json"
+      }
+    ]
+  }
+}
