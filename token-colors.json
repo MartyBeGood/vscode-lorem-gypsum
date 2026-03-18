@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Comments",
+    "scope": [
+      "comment",
+      "punctuation.definition.comment"
+    ],
+    "settings": {
+      "foreground": "$comment"
+    }
+  },
+  {
+    "name": "Strings",
+    "scope": [
+      "string",
+      "string.regexp",
+      "constant.other.symbol"
+    ],
+    "settings": {
+      "foreground": "$string"
+    }
+  },
+  {
+    "name": "Strings: Escape Sequences",
+    "scope": "constant.character.escape",
+    "settings": {
+      "foreground": "$escape"
+    }
+  },
+  {
+    "name": "Numbers, Characters",
+    "scope": [
+      "constant.numeric",
+      "constant.character",
+      "constant.keyword",
+      "constant"
+    ],
+    "settings": {
+      "foreground": "$constant"
+    }
+  },
+  {
+    "name": "Global definitions",
+    "scope": "entity.name",
+    "settings": {
+      "foreground": "$entityName"
+    }
+  },
+  {
+    "name": "Punctuation",
+    "scope": "punctuation",
+    "settings": {
+      "foreground": "$punctuation"
+    }
+  },
+  {
+    "name": "Invalid",
+    "scope": "invalid",
+    "settings": {
+      "background": "#96000014",
+      "foreground": "#660000"
+    }
+  },
+  {
+    "name": "Extra: Diff Range",
+    "scope": [
+      "meta.diff.range",
+      "meta.diff.index",
+      "meta.separator"
+    ],
+    "settings": {
+      "background": "#DDDDFF",
+      "foreground": "#434343"
+    }
+  },
+  {
+    "name": "Extra: Diff From",
+    "scope": "meta.diff.header.from-file",
+    "settings": {
+      "background": "#FFDDDD",
+      "foreground": "#434343"
+    }
+  },
+  {
+    "name": "Extra: Diff To",
+    "scope": "meta.diff.header.to-file",
+    "settings": {
+      "background": "#DDFFDD",
+      "foreground": "#434343"
+    }
+  }
+]

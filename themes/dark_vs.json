@@ -1,11 +1,36 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "Lorem Gypsum High Contrast Light",
-  "type": "hc",
+  "name": "Lorem Gypsum Dark (Visual Studio)",
+  "type": "dark",
   "colors": {
-    "actionBar.toggledBackground": "#dddddd",
-    "statusBarItem.remoteBackground": "#FFFFFF",
-    "statusBarItem.remoteForeground": "#000000"
+    "checkbox.border": "#6B6B6B",
+    "editor.background": "#1E1E1E",
+    "editor.foreground": "#D4D4D4",
+    "editor.inactiveSelectionBackground": "#3A3D41",
+    "editorIndentGuide.background1": "#404040",
+    "editorIndentGuide.activeBackground1": "#707070",
+    "editor.selectionHighlightBackground": "#ADD6FF26",
+    "list.dropBackground": "#383B3D",
+    "activityBarBadge.background": "#007ACC",
+    "sideBarTitle.foreground": "#BBBBBB",
+    "input.placeholderForeground": "#A6A6A6",
+    "menu.background": "#252526",
+    "menu.foreground": "#CCCCCC",
+    "menu.separatorBackground": "#454545",
+    "menu.border": "#454545",
+    "menu.selectionBackground": "#0078d4",
+    "statusBarItem.remoteForeground": "#FFF",
+    "statusBarItem.remoteBackground": "#16825D",
+    "ports.iconRunningProcessForeground": "#369432",
+    "sideBarSectionHeader.background": "#0000",
+    "sideBarSectionHeader.border": "#ccc3",
+    "tab.selectedBackground": "#222222",
+    "tab.selectedForeground": "#ffffffa0",
+    "tab.lastPinnedBorder": "#ccc3",
+    "list.activeSelectionIconForeground": "#FFF",
+    "terminal.inactiveSelectionBackground": "#3A3D41",
+    "widget.border": "#303031",
+    "actionBar.toggledBackground": "#383a49"
   },
   "tokenColors": [
     {
@@ -15,7 +40,7 @@
         "punctuation.definition.comment"
       ],
       "settings": {
-        "foreground": "#0F4A85"
+        "foreground": "#ce9178"
       }
     },
     {
@@ -26,14 +51,14 @@
         "constant.other.symbol"
       ],
       "settings": {
-        "foreground": "#515151"
+        "foreground": "#6A9955"
       }
     },
     {
       "name": "Strings: Escape Sequences",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#096d48"
+        "foreground": "#569cd6"
       }
     },
     {
@@ -45,21 +70,21 @@
         "constant"
       ],
       "settings": {
-        "foreground": "#096d48"
+        "foreground": "#569cd6"
       }
     },
     {
       "name": "Global definitions",
       "scope": "entity.name",
       "settings": {
-        "foreground": "#0F4A85"
+        "foreground": "#569cd6"
       }
     },
     {
       "name": "Punctuation",
       "scope": "punctuation",
       "settings": {
-        "foreground": "#096d48"
+        "foreground": "#569cd6"
       }
     },
     {

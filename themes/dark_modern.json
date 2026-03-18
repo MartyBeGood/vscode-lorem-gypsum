@@ -153,7 +153,7 @@
         "punctuation.definition.comment"
       ],
       "settings": {
-        "foreground": "#D4D4D4"
+        "foreground": "#ce9178"
       }
     },
     {
@@ -171,7 +171,7 @@
       "name": "Strings: Escape Sequences",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#C586C0"
+        "foreground": "#569cd6"
       }
     },
     {
@@ -183,7 +183,7 @@
         "constant"
       ],
       "settings": {
-        "foreground": "#C586C0"
+        "foreground": "#569cd6"
       }
     },
     {
@@ -197,7 +197,7 @@
       "name": "Punctuation",
       "scope": "punctuation",
       "settings": {
-        "foreground": "#C586C0"
+        "foreground": "#569cd6"
       }
     },
     {

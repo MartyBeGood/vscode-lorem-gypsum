@@ -1,19 +1,41 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "Lorem Gypsum High Contrast",
-  "type": "hc",
+  "name": "Lorem Gypsum Light+",
+  "type": "light",
   "colors": {
-    "editor.background": "#000000",
-    "editor.foreground": "#FFFFFF",
-    "editorIndentGuide.background1": "#FFFFFF",
-    "editorIndentGuide.activeBackground1": "#FFFFFF",
-    "sideBarTitle.foreground": "#FFFFFF",
-    "selection.background": "#008000",
-    "editor.selectionBackground": "#FFFFFF",
-    "statusBarItem.remoteBackground": "#00000000",
-    "ports.iconRunningProcessForeground": "#FFFFFF",
-    "editorWhitespace.foreground": "#7c7c7c",
-    "actionBar.toggledBackground": "#383a49"
+    "checkbox.border": "#919191",
+    "editor.background": "#FFFFFF",
+    "editor.foreground": "#000000",
+    "editor.inactiveSelectionBackground": "#E5EBF1",
+    "editorIndentGuide.background1": "#D3D3D3",
+    "editorIndentGuide.activeBackground1": "#939393",
+    "editor.selectionHighlightBackground": "#ADD6FF80",
+    "editorSuggestWidget.background": "#F3F3F3",
+    "activityBarBadge.background": "#007ACC",
+    "sideBarTitle.foreground": "#6F6F6F",
+    "list.hoverBackground": "#E8E8E8",
+    "menu.border": "#D4D4D4",
+    "input.placeholderForeground": "#767676",
+    "searchEditor.textInputBorder": "#CECECE",
+    "settings.textInputBorder": "#CECECE",
+    "settings.numberInputBorder": "#CECECE",
+    "statusBarItem.remoteForeground": "#FFF",
+    "statusBarItem.remoteBackground": "#16825D",
+    "ports.iconRunningProcessForeground": "#369432",
+    "sideBarSectionHeader.background": "#0000",
+    "sideBarSectionHeader.border": "#61616130",
+    "tab.selectedForeground": "#333333b3",
+    "tab.selectedBackground": "#ffffffa5",
+    "tab.lastPinnedBorder": "#61616130",
+    "notebook.cellBorderColor": "#E8E8E8",
+    "notebook.selectedCellBackground": "#c8ddf150",
+    "statusBarItem.errorBackground": "#c72e0f",
+    "list.activeSelectionIconForeground": "#FFF",
+    "list.focusAndSelectionOutline": "#90C2F9",
+    "terminal.inactiveSelectionBackground": "#E5EBF1",
+    "widget.border": "#d4d4d4",
+    "actionBar.toggledBackground": "#dddddd",
+    "diffEditor.unchangedRegionBackground": "#f8f8f8"
   },
   "tokenColors": [
     {
@@ -23,7 +45,7 @@
         "punctuation.definition.comment"
       ],
       "settings": {
-        "foreground": "#FFFFFF"
+        "foreground": "#a31515"
       }
     },
     {
@@ -34,14 +56,14 @@
         "constant.other.symbol"
       ],
       "settings": {
-        "foreground": "#7ca668"
+        "foreground": "#008000"
       }
     },
     {
       "name": "Strings: Escape Sequences",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#569cd6"
+        "foreground": "#0000ff"
       }
     },
     {
@@ -53,21 +75,21 @@
         "constant"
       ],
       "settings": {
-        "foreground": "#569cd6"
+        "foreground": "#0000ff"
       }
     },
     {
       "name": "Global definitions",
       "scope": "entity.name",
       "settings": {
-        "foreground": "#569cd6"
+        "foreground": "#795E26"
       }
     },
     {
       "name": "Punctuation",
       "scope": "punctuation",
       "settings": {
-        "foreground": "#569cd6"
+        "foreground": "#0000ff"
       }
     },
     {

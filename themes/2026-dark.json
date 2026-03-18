@@ -312,7 +312,7 @@
         "punctuation.definition.comment"
       ],
       "settings": {
-        "foreground": "#8b949e"
+        "foreground": "#ff7b72"
       }
     },
     {
@@ -323,14 +323,14 @@
         "constant.other.symbol"
       ],
       "settings": {
-        "foreground": "#8b949e"
+        "foreground": "#7ee787"
       }
     },
     {
       "name": "Strings: Escape Sequences",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#ff7b72"
+        "foreground": "#79c0ff"
       }
     },
     {
@@ -342,21 +342,21 @@
         "constant"
       ],
       "settings": {
-        "foreground": "#ff7b72"
+        "foreground": "#C586C0"
       }
     },
     {
       "name": "Global definitions",
       "scope": "entity.name",
       "settings": {
-        "foreground": "#79c0ff"
+        "foreground": "#a5d6ff"
       }
     },
     {
       "name": "Punctuation",
       "scope": "punctuation",
       "settings": {
-        "foreground": "#ff7b72"
+        "foreground": "#79c0ff"
       }
     },
     {
