@@ -25,7 +25,7 @@ Instead, it uses roughly 10 colors, total. You get bolds and italics for the thi
 Semantic highlighting is also disabled. Your language server has opinions. This theme does not share them.
 
 ### ...from Alabaster
-I agree with tonsky's analysis of syntax highlighting having gone off the rails. I don't agree with everything other than syntax looks with the dark variant of Alabaster - VSCode got the rest of the UI looking pretty slick. Why not have both?
+I agree with tonsky's analysis of syntax highlighting having gone off the rails. I don't agree with how the UI looks with the dark variant of Alabaster. VSCode got the rest of the UI looking pretty slick. Why not have both?
 
 ## Variants
 
@@ -93,13 +93,13 @@ One variant for every built-in VSCode theme, so I could finally put the "it does
 
 ## How the colors are picked
 
-They're hand-picked from the colors that the default themes use, but used the way Alabaster uses them - Strings are whichever green the default theme uses, function calls are whichever shade of blue I liked the most from that theme, etc.
+They're hand-picked from the colors that the default themes use, but used the way Alabaster uses them — strings are whichever green the default theme uses, function calls are whichever shade of blue I liked the most from that theme, etc.
 
 You can see the mapping in extract-colors.js. The idea is that Lorem Gypsum should not define any colors on its own (the author doesn't know a thing about color theory), so we're only referencing tokens defined in the theme we're stealing from.
 
 ## Installation
 
-Find it in the VSCode Extension Marketplace once it's there, OpenVSIX if I ever get around to publishing it there, or build&install the `.vsix` manually if you have trust issues with marketplaces ().
+Find it in the VSCode Extension Marketplace once it's there, OpenVSIX if I ever get around to publishing it there, or build and install the `.vsix` manually if you have trust issues with marketplaces.
 
 ## FAQ
 
