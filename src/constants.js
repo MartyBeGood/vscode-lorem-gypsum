@@ -11,15 +11,58 @@ export const vsCodeThemesBase =
 export const alabasterThemeBase =
   'https://raw.githubusercontent.com/tonsky/vscode-theme-alabaster/refs/heads/master/theme';
 
-export const themeFiles = [
-  'dark_vs.json',
-  'light_vs.json',
-  'hc_black.json',
-  'hc_light.json',
-  'dark_plus.json',
-  'light_plus.json',
-  'dark_modern.json',
-  'light_modern.json',
-  '2026-dark.json',
-  '2026-light.json',
-];
+// Theme metadata keyed by output filename.
+export const themeMetadata = {
+  'dark_vs.json': {
+    displayName: 'Lorem Gypsum Dark (Visual Studio)',
+    uiTheme: 'vs-dark',
+    type: 'dark',
+  },
+  'light_vs.json': {
+    displayName: 'Lorem Gypsum Light (Visual Studio)',
+    uiTheme: 'vs',
+    type: 'light',
+  },
+  'hc_black.json': {
+    displayName: 'Lorem Gypsum High Contrast',
+    uiTheme: 'hc-black',
+    type: 'hc',
+  },
+  'hc_light.json': {
+    displayName: 'Lorem Gypsum High Contrast Light',
+    uiTheme: 'hc-light',
+    type: 'hc',
+  },
+  'dark_plus.json': {
+    displayName: 'Lorem Gypsum Dark+',
+    uiTheme: 'vs-dark',
+    type: 'dark',
+  },
+  'light_plus.json': {
+    displayName: 'Lorem Gypsum Light+',
+    uiTheme: 'vs',
+    type: 'light',
+  },
+  'dark_modern.json': {
+    displayName: 'Lorem Gypsum Dark Modern',
+    uiTheme: 'vs-dark',
+    type: 'dark',
+  },
+  'light_modern.json': {
+    displayName: 'Lorem Gypsum Light Modern',
+    uiTheme: 'vs',
+    type: 'light',
+  },
+  '2026-dark.json': {
+    displayName: 'Lorem Gypsum 2026 Dark',
+    uiTheme: 'vs-dark',
+    type: 'dark',
+  },
+  '2026-light.json': {
+    displayName: 'Lorem Gypsum 2026 Light',
+    uiTheme: 'vs',
+    type: 'light',
+  },
+};
+
+export const themeFiles = Object.keys(themeMetadata);

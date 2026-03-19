@@ -1,35 +1,9 @@
-#!/usr/bin/env node
-// Generate VSCode color themes combining default VSCode UI colors with
-// Alabaster-style minimal syntax highlighting.
-// Run fetch-upstream.js first to populate upstream-themes/, then:
-// Usage: node src/build-theme.js  (or: npm run generate)
+// Builds a single theme file from the source JSON and the resolved palette. This is used by generate-themes.js to build all themes.
 
 import fs from 'fs';
 import path from 'path';
-import { themeFiles, repoRoot, themesDir } from './constants.js';
-import { resolveAllThemes, extractPaletteForTheme } from './extract-colors.js';
-
-// Filename -> [display_name, uiTheme]
-// uiTheme must be one of: "vs", "vs-dark", "hc-black", "hc-light"
-const themeMetadata = {
-  'dark_vs.json':     ['Lorem Gypsum Dark (Visual Studio)', 'vs-dark'],
-  'dark_plus.json':   ['Lorem Gypsum Dark+',                'vs-dark'],
-  'dark_modern.json': ['Lorem Gypsum Dark Modern',          'vs-dark'],
-  'light_vs.json':    ['Lorem Gypsum Light (Visual Studio)', 'vs'],
-  'light_plus.json':  ['Lorem Gypsum Light+',               'vs'],
-  'light_modern.json':['Lorem Gypsum Light Modern',         'vs'],
-  'hc_black.json':    ['Lorem Gypsum High Contrast',        'hc-black'],
-  'hc_light.json':    ['Lorem Gypsum High Contrast Light',  'hc-light'],
-  '2026-dark.json':   ['Lorem Gypsum 2026 Dark',            'vs-dark'],
-  '2026-light.json':  ['Lorem Gypsum 2026 Light',           'vs'],
-};
-
-const uiThemeToType = {
-  'vs-dark':  'dark',
-  'vs':       'light',
-  'hc-black': 'hc',
-  'hc-light': 'hc',
-};
+import { repoRoot, themesDir, themeMetadata } from './constants.js';
+import { extractPaletteForTheme } from './extract-colors.js';
 
 function loadJsonWithComments(filePath) {
   const raw = fs.readFileSync(filePath, 'utf-8');
@@ -43,8 +17,8 @@ function loadJsonWithComments(filePath) {
 
 const tokenColorsTemplate = loadJsonWithComments(path.join(repoRoot, 'token-colors.json'));
 
-function buildTheme(sourceFilename, displayName, resolvedThemes) {
-  const [, uiTheme] = themeMetadata[sourceFilename];
+export function buildTheme(sourceFilename, displayName, resolvedThemes) {
+  const metadata = themeMetadata[sourceFilename];
   const resolved = resolvedThemes[sourceFilename];
   const palette = extractPaletteForTheme(sourceFilename, resolvedThemes);
 
@@ -63,7 +37,7 @@ function buildTheme(sourceFilename, displayName, resolvedThemes) {
   const theme = {
     $schema: 'vscode://schemas/color-theme',
     name: displayName,
-    type: uiThemeToType[uiTheme] || 'dark',
+    type: metadata?.type || 'dark',
     colors: resolved.colors || {},
     tokenColors,
     semanticHighlighting: false,
@@ -77,55 +51,3 @@ function buildTheme(sourceFilename, displayName, resolvedThemes) {
     console.log(`    $${name} -> ${color}`);
   }
 }
-
-function updatePackageJson(themesManifest) {
-  const pkgPath = path.join(repoRoot, 'package.json');
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
-  pkg.name = 'vscode-lorem-gypsum';
-  pkg.displayName = 'Lorem Gypsum';
-  pkg.contributes.themes = themesManifest;
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
-}
-
-function main() {
-  fs.mkdirSync(themesDir, { recursive: true });
-
-  console.log('Loading upstream themes...');
-  const resolvedThemes = resolveAllThemes();
-
-  // Clear stale generated theme files
-  for (const fname of fs.readdirSync(themesDir)) {
-    if (fname.endsWith('.json')) {
-      fs.unlinkSync(path.join(themesDir, fname));
-      console.log(`  Removed stale: ${fname}`);
-    }
-  }
-
-  const themesManifest = [];
-
-  console.log('\nGenerating themes...');
-  for (const filename of themeFiles) {
-    if (!(filename in themeMetadata)) {
-      console.log(`  WARNING: ${filename} not in THEME_METADATA, skipping`);
-      continue;
-    }
-
-    const [displayName, uiTheme] = themeMetadata[filename];
-    buildTheme(filename, displayName, resolvedThemes);
-    themesManifest.push({
-      label: displayName,
-      uiTheme,
-      path: `./themes/${filename}`,
-    });
-  }
-
-  updatePackageJson(themesManifest);
-
-  console.log(`\nDone! Generated ${themesManifest.length} themes.`);
-  console.log('Next steps:');
-  console.log('  1. Press F5 in VSCode to test');
-  console.log('  2. Bump version in package.json');
-  console.log('  3. vsce publish');
-}
-
-main();
