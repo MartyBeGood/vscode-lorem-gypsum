@@ -8,11 +8,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { themeFiles, upstreamDir, palettesDir } from './constants.js';
 
-const SCHEMA_PATH = path.join(palettesDir, 'palette.schema.json');
-const SCHEMA_REF = './palette.schema.json';
+const schemaPath = path.join(palettesDir, 'palette.schema.json');
+const schemaRef = './palette.schema.json';
 
 // Color mappings: placeholder name -> source scope to extract from.
-const DEFAULT_MAPPINGS = {
+const defaultMappings = {
   comment: 'string',
   string: 'comment',
   escape: 'keyword.control',
@@ -21,7 +21,7 @@ const DEFAULT_MAPPINGS = {
   invalid: 'invalid',
 };
 
-const MAPPINGS_2026 = {
+const mappingsFor2026Themes = {
   comment: 'keyword',
   string: 'entity.name.tag',
   escape: 'constant',
@@ -29,17 +29,17 @@ const MAPPINGS_2026 = {
   entityName: 'string',
 };
 
-export const MAPPINGS_OVERRIDES = {
-  '2026-dark.json': MAPPINGS_2026,
-  '2026-light.json': MAPPINGS_2026,
+export const mappingsOverrides = {
+  '2026-dark.json': mappingsFor2026Themes,
+  '2026-light.json': mappingsFor2026Themes,
 };
 
 function validateMappingsAgainstSchema() {
-  const schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf-8'));
+  const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf-8'));
   const schemaKeys = new Set(Object.keys(schema.properties).filter((k) => k !== '$schema'));
   const allMappingKeys = new Set([
-    ...Object.keys(DEFAULT_MAPPINGS),
-    ...Object.values(MAPPINGS_OVERRIDES).flatMap(Object.keys),
+    ...Object.keys(defaultMappings),
+    ...Object.values(mappingsOverrides).flatMap(Object.keys),
   ]);
   const missing = [...allMappingKeys].filter((k) => !schemaKeys.has(k));
   if (missing.length > 0) {
@@ -131,8 +131,8 @@ function extractColors(themeFilename, mappings, resolvedThemes) {
 
 export function getMappingsForTheme(sourceFilename) {
   return {
-    ...DEFAULT_MAPPINGS,
-    ...(MAPPINGS_OVERRIDES[sourceFilename] || {}),
+    ...defaultMappings,
+    ...(mappingsOverrides[sourceFilename] || {}),
   };
 }
 
@@ -145,7 +145,7 @@ function writePalettes(resolvedThemes) {
   fs.mkdirSync(palettesDir, { recursive: true });
 
   for (const fname of fs.readdirSync(palettesDir)) {
-    if (fname.endsWith('.json') && fname !== path.basename(SCHEMA_PATH)) {
+    if (fname.endsWith('.json') && fname !== path.basename(schemaPath)) {
       fs.unlinkSync(path.join(palettesDir, fname));
       console.log(`  Removed stale: ${fname}`);
     }
@@ -154,7 +154,7 @@ function writePalettes(resolvedThemes) {
   for (const filename of themeFiles) {
     const palette = extractPaletteForTheme(filename, resolvedThemes);
     const outPath = path.join(palettesDir, filename);
-    const output = { $schema: SCHEMA_REF, ...palette };
+    const output = { $schema: schemaRef, ...palette };
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2) + '\n', 'utf-8');
     console.log(`  Wrote palette: ${filename}`);
   }

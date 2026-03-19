@@ -11,7 +11,7 @@ import { resolveAllThemes, extractPaletteForTheme } from './extract-colors.js';
 
 // Filename -> [display_name, uiTheme]
 // uiTheme must be one of: "vs", "vs-dark", "hc-black", "hc-light"
-const THEME_METADATA = {
+const themeMetadata = {
   'dark_vs.json':     ['Lorem Gypsum Dark (Visual Studio)', 'vs-dark'],
   'dark_plus.json':   ['Lorem Gypsum Dark+',                'vs-dark'],
   'dark_modern.json': ['Lorem Gypsum Dark Modern',          'vs-dark'],
@@ -24,7 +24,7 @@ const THEME_METADATA = {
   '2026-light.json':  ['Lorem Gypsum 2026 Light',           'vs'],
 };
 
-const UI_THEME_TO_TYPE = {
+const uiThemeToType = {
   'vs-dark':  'dark',
   'vs':       'light',
   'hc-black': 'hc',
@@ -33,21 +33,23 @@ const UI_THEME_TO_TYPE = {
 
 function loadJsonWithComments(filePath) {
   const raw = fs.readFileSync(filePath, 'utf-8');
-  const withoutBlockComments = raw.replace(/\/\*[\s\S]*?\*\//g, '');
-  const withoutLineComments = withoutBlockComments.replace(/\/\/[^\n]*/g, '');
-  const withoutTrailingCommas = withoutLineComments.replace(/,\s*([}\]])/g, '$1');
-  return JSON.parse(withoutTrailingCommas);
+  return JSON.parse(
+    raw
+      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove /* block comments */
+      .replace(/\/\/[^\n]*/g, '') // Remove // line comments
+      .replace(/,\s*([}\]])/g, '$1') // Remove trailing commas
+  );
 }
 
-const TEMPLATE = loadJsonWithComments(path.join(repoRoot, 'token-colors.json'));
+const tokenColorsTemplate = loadJsonWithComments(path.join(repoRoot, 'token-colors.json'));
 
 function buildTheme(sourceFilename, displayName, resolvedThemes) {
-  const [, uiTheme] = THEME_METADATA[sourceFilename];
+  const [, uiTheme] = themeMetadata[sourceFilename];
   const resolved = resolvedThemes[sourceFilename];
   const palette = extractPaletteForTheme(sourceFilename, resolvedThemes);
 
   const tokenColors = JSON.parse(
-    JSON.stringify(TEMPLATE),
+    JSON.stringify(tokenColorsTemplate),
     (key, value) => {
       if (typeof value !== 'string' || !value.startsWith('$')) return value;
       const palKey = value.slice(1);
@@ -61,7 +63,7 @@ function buildTheme(sourceFilename, displayName, resolvedThemes) {
   const theme = {
     $schema: 'vscode://schemas/color-theme',
     name: displayName,
-    type: UI_THEME_TO_TYPE[uiTheme] || 'dark',
+    type: uiThemeToType[uiTheme] || 'dark',
     colors: resolved.colors || {},
     tokenColors,
     semanticHighlighting: false,
@@ -103,12 +105,12 @@ function main() {
 
   console.log('\nGenerating themes...');
   for (const filename of themeFiles) {
-    if (!(filename in THEME_METADATA)) {
+    if (!(filename in themeMetadata)) {
       console.log(`  WARNING: ${filename} not in THEME_METADATA, skipping`);
       continue;
     }
 
-    const [displayName, uiTheme] = THEME_METADATA[filename];
+    const [displayName, uiTheme] = themeMetadata[filename];
     buildTheme(filename, displayName, resolvedThemes);
     themesManifest.push({
       label: displayName,
