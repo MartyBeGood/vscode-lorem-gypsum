@@ -4,3 +4,11 @@
 vsc-extension-quickstart.md
 generate.py
 CLAUDE.md
+src/**
+images/samples/
+token-colors.json
+*.vsix
+node_modules/**
+package-lock.json
+palettes/**
+upstream-themes/**

@@ -9,17 +9,33 @@
     "build": "vsce package"
   },
   "displayName": "Lorem Gypsum",
-  "description": "Default UI, Alabaster syntax, maintained whenever I have the time",
+  "description": "Default UI, Alabaster syntax, some tweaks to harmonize the two.",
+  "icon": "./images/lorem-gypsum-logo.png",
   "repository": {
-    "url": "https://github.com/MartyBeGood/vscode-lorem-gypsum.git"
+    "type": "git",
+    "url": "https://github.com/MartyBeGood/vscode-lorem-gypsum"
   },
-  "version": "0.0.1",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "version": "1.0.0",
+  "publisher": "MartyBeGood",
   "engines": {
     "vscode": "^1.110.0",
     "node": ">=18"
   },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
   "categories": [
     "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "default",
+    "alabaster",
+    "minimal",
+    "syntax",
+    "focus"
   ],
   "contributes": {
     "themes": [

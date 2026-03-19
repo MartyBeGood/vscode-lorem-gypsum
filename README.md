@@ -4,6 +4,17 @@
 
 Lorem Gypsum pairs the stock VSCode UI you already know (and have strong feelings about) with [Alabaster](https://github.com/tonsky/vscode-theme-alabaster)-style minimal syntax highlighting. The result looks almost exactly like your current theme, except your eyes will finally stop twitching.
 
+<table>
+<tr>
+<td align="center"><strong>Dark Modern</strong></td>
+<td align="center"><strong>Light Modern</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-dark-modern.png" alt="Lorem Gypsum Dark Modern" /></td>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-light-modern.png" alt="Lorem Gypsum Light Modern" /></td>
+</tr>
+</table>
+
 ## What's different
 
 ### ...from most themes
@@ -20,18 +31,65 @@ I agree with tonsky's analysis of syntax highlighting having gone off the rails.
 
 One variant for every built-in VSCode theme, so I could finally put the "it doesn't match my system UI" ick to rest.
 
-| Theme | Base |
-|-------|------|
-| Lorem Gypsum Dark Modern | Dark Modern |
-| Lorem Gypsum Light Modern | Light Modern |
-| Lorem Gypsum Dark+ | Dark+ |
-| Lorem Gypsum Light+ | Light+ |
-| Lorem Gypsum 2026 Dark | 2026 Dark |
-| Lorem Gypsum 2026 Light | 2026 Light |
-| Lorem Gypsum Dark (Visual Studio) | Dark VS |
-| Lorem Gypsum Light (Visual Studio) | Light VS |
-| Lorem Gypsum High Contrast | High Contrast |
-| Lorem Gypsum High Contrast Light | High Contrast Light |
+<details>
+<summary><strong>Modern</strong> — Dark Modern / Light Modern</summary>
+<br>
+<table>
+<tr>
+<td align="center"><strong>Dark Modern</strong></td>
+<td align="center"><strong>Light Modern</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-dark-modern.png" alt="Lorem Gypsum Dark Modern" /></td>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-light-modern.png" alt="Lorem Gypsum Light Modern" /></td>
+</tr>
+</table>
+</details>
+
+<details>
+<summary><strong>Plus</strong> — Dark+ / Light+</summary>
+<br>
+<table>
+<tr>
+<td align="center"><strong>Dark+</strong></td>
+<td align="center"><strong>Light+</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-dark-plus.png" alt="Lorem Gypsum Dark+" /></td>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-light-plus.png" alt="Lorem Gypsum Light+" /></td>
+</tr>
+</table>
+</details>
+
+<details>
+<summary><strong>2026</strong> — 2026 Dark / 2026 Light</summary>
+<br>
+<table>
+<tr>
+<td align="center"><strong>2026 Dark</strong></td>
+<td align="center"><strong>2026 Light</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-dark-2026.png" alt="Lorem Gypsum 2026 Dark" /></td>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-light-2026.png" alt="Lorem Gypsum 2026 Light" /></td>
+</tr>
+</table>
+</details>
+
+<details>
+<summary><strong>Visual Studio</strong> — Dark VS / Light VS</summary>
+<br>
+<table>
+<tr>
+<td align="center"><strong>Dark VS</strong></td>
+<td align="center"><strong>Light VS</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-dark-vs.png" alt="Lorem Gypsum Dark VS" /></td>
+<td><img src="https://github.com/MartyBeGood/vscode-lorem-gypsum/raw/main/images/samples/lorem-gypsum-light-vs.png" alt="Lorem Gypsum Light VS" /></td>
+</tr>
+</table>
+</details>
 
 ## How the colors are picked
 
@@ -55,10 +113,7 @@ Alabaster is a type of gypsum. Lorem Ipsum is the world's default filler text.
 Possibly. Shouldn't be more than referencing the file in `fetch-upstream.js` and a mapping in `extract-colors.js`. PRs are welcome.
 
 ### This token in the language I like most is highlighted wrong or not at all. Can you fix it?
-As long as it fits into the categories that Alabaster would highlight. Issues and PRs are welcome. 
+As long as it fits into the categories that Alabaster would highlight. Issues and PRs are welcome.
 
 ### I can't live without [obscure feature in this arcane language] being highlighted in a color nothing else shares. Can you support that?
 You might be more at home with Catppuccin.
-
-### Where are the screenshots?
-Patience, young one.
