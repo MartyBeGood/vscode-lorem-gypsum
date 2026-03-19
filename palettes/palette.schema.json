@@ -9,10 +9,9 @@
     "escape":      { "type": "string", "format": "color-hex" },
     "constant":    { "type": "string", "format": "color-hex" },
     "entityName":  { "type": "string", "format": "color-hex" },
-    "punctuation": { "type": "string", "format": "color-hex" },
     "invalid":     { "type": "string", "format": "color-hex" },
     "$schema": { "type": "string", "format": "uri-reference" }
   },
-  "required": ["comment", "string", "escape", "constant", "entityName", "punctuation"],
+  "required": ["comment", "string", "escape", "constant", "entityName"],
   "additionalProperties": false
 }

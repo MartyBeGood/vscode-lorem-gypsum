@@ -29,9 +29,15 @@ const mappingsFor2026Themes = {
   entityName: 'string',
 };
 
+const mappingsForVsThemes = {
+  constant: 'markup.italic', // VS themes use blue for constants and keywords, so pick the only purple color from the vs themes
+}
+
 export const mappingsOverrides = {
   '2026-dark.json': mappingsFor2026Themes,
   '2026-light.json': mappingsFor2026Themes,
+  'dark_vs.json': mappingsForVsThemes,
+  'light_vs.json': mappingsForVsThemes,
 };
 
 function validateMappingsAgainstSchema() {
