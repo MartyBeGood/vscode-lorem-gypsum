@@ -6,22 +6,14 @@
 
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { upstreamDir, vsCodeThemesBase, alabasterThemeBase, themeFiles } from './constants.js';
+import { stripJsoncComments } from './parse-jsonc.js';
 
 async function fetchText(url) {
   const res = await fetch(url, { headers: { 'User-Agent': 'vscode-default-alabaster/generate' } });
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   return res.text();
-}
-
-function stripJsoncComments(text) {
-  // Preserve quoted strings; remove // line comments and /* */ block comments.
-  text = text.replace(/"(?:[^"\\]|\\.)*"|\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, (m) =>
-    m.startsWith('"') ? m : ''
-  );
-  // Remove trailing commas before ] or }
-  text = text.replace(/,(\s*[}\]])/g, '$1');
-  return text;
 }
 
 async function fetchJson(url) {
@@ -50,7 +42,9 @@ async function main() {
   console.log(`\nDone! ${themeFiles.length + 1} files saved to upstream-themes/`);
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}

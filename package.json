@@ -2,11 +2,13 @@
   "name": "vscode-lorem-gypsum",
   "type": "module",
   "scripts": {
+    "test": "node --test test/*.test.js",
     "fetch-upstream": "node src/fetch-upstream.js",
     "extract-colors": "node src/extract-colors.js",
     "generate": "node src/generate-themes.js",
     "prebuild": "npm run fetch-upstream && npm run extract-colors && npm run generate",
-    "build": "vsce package"
+    "build": "vsce package",
+    "marketplace:publish": "npm run build && vsce publish"
   },
   "displayName": "Lorem Gypsum",
   "description": "Default UI, Alabaster syntax, some tweaks to harmonize the two.",

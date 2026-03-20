@@ -4,16 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { repoRoot, themesDir, themeMetadata } from './constants.js';
 import { extractPaletteForTheme } from './extract-colors.js';
-
-function loadJsonWithComments(filePath) {
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(
-    raw
-      .replace(/\/\*[\s\S]*?\*\//g, '') // Remove /* block comments */
-      .replace(/\/\/[^\n]*/g, '') // Remove // line comments
-      .replace(/,\s*([}\]])/g, '$1') // Remove trailing commas
-  );
-}
+import { loadJsonWithComments } from './parse-jsonc.js';
 
 const tokenColorsTemplate = loadJsonWithComments(path.join(repoRoot, 'token-colors.json'));
 
