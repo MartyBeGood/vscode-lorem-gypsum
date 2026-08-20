@@ -96,6 +96,48 @@
       "settings": {
         "foreground": "#cd3131"
       }
+    },
+    {
+      "name": "Bold text",
+      "scope": "strong",
+      "settings": {
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Keywords",
+      "scope": "keyword",
+      "settings": {
+        "foreground": "#0000ff"
+      }
+    },
+    {
+      "name": "Diff: inserted",
+      "scope": "markup.inserted",
+      "settings": {
+        "foreground": "#098658"
+      }
+    },
+    {
+      "name": "Diff: deleted",
+      "scope": "markup.deleted",
+      "settings": {
+        "foreground": "#a31515"
+      }
+    },
+    {
+      "name": "Diff: header",
+      "scope": "meta.diff.header",
+      "settings": {
+        "foreground": "#000080"
+      }
+    },
+    {
+      "name": "Magit: commit/stash entities",
+      "scope": "magit.entity",
+      "settings": {
+        "foreground": "#AF00DB"
+      }
     }
   ],
   "semanticHighlighting": false

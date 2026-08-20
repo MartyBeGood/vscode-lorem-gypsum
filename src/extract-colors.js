@@ -19,6 +19,10 @@ const defaultMappings = {
   constant: 'keyword.control',
   entityName: 'constant.language',
   invalid: 'invalid',
+  keyword: 'keyword',
+  diffInserted: 'markup.inserted',
+  diffRemoved: 'markup.deleted',
+  diffHeader: 'meta.diff.header',
 };
 
 const mappingsFor2026Themes = {

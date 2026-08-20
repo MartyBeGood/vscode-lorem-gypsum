@@ -10,8 +10,12 @@
     "constant":    { "type": "string", "format": "color-hex" },
     "entityName":  { "type": "string", "format": "color-hex" },
     "invalid":     { "type": "string", "format": "color-hex" },
+    "keyword":      { "type": "string", "format": "color-hex" },
+    "diffInserted": { "type": "string", "format": "color-hex" },
+    "diffRemoved":  { "type": "string", "format": "color-hex" },
+    "diffHeader":   { "type": "string", "format": "color-hex" },
     "$schema": { "type": "string", "format": "uri-reference" }
   },
-  "required": ["comment", "string", "escape", "constant", "entityName"],
+  "required": ["comment", "string", "escape", "constant", "entityName", "keyword", "diffInserted", "diffRemoved", "diffHeader"],
   "additionalProperties": false
 }

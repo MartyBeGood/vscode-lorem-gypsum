@@ -18,6 +18,10 @@ test('getMappingsForTheme returns default mappings for an unknown theme', () => 
   assert.equal(mappings.constant, 'keyword.control');
   assert.equal(mappings.entityName, 'constant.language');
   assert.equal(mappings.invalid, 'invalid');
+  assert.equal(mappings.keyword, 'keyword');
+  assert.equal(mappings.diffInserted, 'markup.inserted');
+  assert.equal(mappings.diffRemoved, 'markup.deleted');
+  assert.equal(mappings.diffHeader, 'meta.diff.header');
 });
 
 test('getMappingsForTheme merges 2026 overrides for 2026-dark.json', () => {
@@ -160,5 +164,16 @@ test('resolveAllThemes gives each theme a colors object', () => {
       theme.colors !== null && typeof theme.colors === 'object',
       `${filename}: colors should be an object`
     );
+  }
+});
+
+test('extractPaletteForTheme resolves every mapping key for every real theme (guards against unresolved $placeholders)', () => {
+  const resolvedThemes = resolveAllThemes();
+  for (const filename of themeFiles) {
+    const mappings = getMappingsForTheme(filename);
+    const palette = extractPaletteForTheme(filename, resolvedThemes);
+    for (const key of Object.keys(mappings)) {
+      assert.ok(key in palette, `${filename}: missing palette key '${key}' (source scope '${mappings[key]}')`);
+    }
   }
 });

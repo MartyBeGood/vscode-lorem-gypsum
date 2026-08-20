@@ -57,5 +57,47 @@
     "settings": {
       "foreground": "$invalid"
     }
+  },
+  {
+    "name": "Bold text",
+    "scope": "strong",
+    "settings": {
+      "fontStyle": "bold"
+    }
+  },
+  {
+    "name": "Keywords",
+    "scope": "keyword",
+    "settings": {
+      "foreground": "$keyword"
+    }
+  },
+  {
+    "name": "Diff: inserted",
+    "scope": "markup.inserted",
+    "settings": {
+      "foreground": "$diffInserted"
+    }
+  },
+  {
+    "name": "Diff: deleted",
+    "scope": "markup.deleted",
+    "settings": {
+      "foreground": "$diffRemoved"
+    }
+  },
+  {
+    "name": "Diff: header",
+    "scope": "meta.diff.header",
+    "settings": {
+      "foreground": "$diffHeader"
+    }
+  },
+  {
+    "name": "Magit: commit/stash entities",
+    "scope": "magit.entity",
+    "settings": {
+      "foreground": "$constant"
+    }
   }
 ]
